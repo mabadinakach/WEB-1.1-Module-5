@@ -74,7 +74,6 @@ def detail(plant_id):
     # HINT: This query should be on the `harvests` collection, not the `plants`
     # collection.
     harvests = mongo.db.harvests.find({"plant_id":plant_id})
-    print(harvests.count())
     harvest_data = []
     for harvest in harvests:
         harvest_data.append(harvest)
@@ -116,7 +115,7 @@ def edit(plant_id):
         search_param = {
             "_id":ObjectId(plant_id)
         }
-        
+
         changes = {
             '$set': {
                 'name':request.form.get("plant_name"),
@@ -145,11 +144,11 @@ def edit(plant_id):
 def delete(plant_id):
     # TODO: Make a `delete_one` database call to delete the plant with the given
     # id.
-    delete_plant = mongo.db.plants.delete_one({"_id": ObjectId(plant_id)})
+    mongo.db.plants.delete_one({"_id": ObjectId(plant_id)})
 
     # TODO: Also, make a `delete_many` database call to delete all harvests with
     # the given plant id.
-    delete_harvests = mongo.db.harvests.delete_many({"plant_id":plant_id})
+    mongo.db.harvests.delete_many({"plant_id":plant_id})
 
     return redirect(url_for('plants_list'))
 
